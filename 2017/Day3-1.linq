@@ -15,7 +15,6 @@ if (size[0] * size[1] < input)
 var matrix = new int[size[0], size[1]];
 
 
-
 int x = (int)Math.Floor(((size[0] - 1) / 2.0));
 int y = (int)((size[1] - 1) / 2.0);
 var direction = "right";
@@ -44,7 +43,6 @@ foreach (var i in Enumerable.Range(2, input - 1))
 		case "up":
 			y -= 1;
 			break;
-
 	}
 
 	matrix[x, y] = i;

@@ -1,6 +1,43 @@
-<Query Kind="Statements" />
+<Query Kind="Program" />
 
-var input = @"86	440	233	83	393	420	228	491	159	13	110	135	97	238	92	396
+void Main()
+{
+	A(input).Dump();
+	B(input).Dump();
+}
+
+public static string B(string input)
+{
+
+	var matrix = (from line in input.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
+				  select line.Split(new[] { ' ', '\t' }).Select(x => Convert.ToInt32(x)).ToArray().OrderByDescending(x => x).ToArray()
+			  	);
+
+
+	var sum = 0;
+
+	foreach (var row in matrix)
+	{
+		for (var x = 0; x < row.Length; x++)
+			for (var y = x + 1; y < row.Length; y++)
+				if (row[x] % row[y] == 0)
+					sum += (row[x] / row[y]);
+	}
+
+	return $"B: {sum}";
+}
+public static string A(string input)
+{
+	var sum = (from line in input.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
+			   let elements = line.Split(new[] { ' ', '\t' }).Select(x => Convert.ToInt32(x))
+			   select elements.Max(x => x) - elements.Min(x => x)
+			  ).Sum();
+	return $"A: {sum}";
+}
+
+
+
+private static string input = @"86	440	233	83	393	420	228	491	159	13	110	135	97	238	92	396
 3646	3952	3430	145	1574	2722	3565	125	3303	843	152	1095	3805	134	3873	3024
 2150	257	237	2155	1115	150	502	255	1531	894	2309	1982	2418	206	307	2370
 1224	343	1039	126	1221	937	136	1185	1194	1312	1217	929	124	1394	1337	168
@@ -16,10 +53,3 @@ var input = @"86	440	233	83	393	420	228	491	159	13	110	135	97	238	92	396
 492	1179	154	1497	819	2809	2200	2324	157	2688	1518	168	2767	2369	2583	173
 286	2076	243	939	399	451	231	2187	2295	453	1206	2468	2183	230	714	681
 3111	2857	2312	3230	149	3082	408	1148	2428	134	147	620	128	157	492	2879";
-
-var result = (from line in input.Split(new[] { Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries)
-			  let elements = line.Split(new[] { ' ', '\t'}).Select(x=>Convert.ToInt32(x))
-			  select elements.Max(x=>x) - elements.Min(x=>x)
-			  ).Sum();
-			
-result.Dump();

@@ -85,4 +85,3 @@ foreach (var i in Enumerable.Range(2, input - 1))
 }
 
 matrix.Dump();
-
